@@ -46,7 +46,7 @@ def select_mode():
     raw = input("选择功能模式：")
     index = int(raw)
 
-    mode = [0,solo, huntu]
+    mode = [0,tansuo, huntu]
     comand = mode[index]
     comand()
 
