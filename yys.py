@@ -55,7 +55,8 @@ def select_mode():
 
 
 def tansuo():
-    while True:  # 直到取消，或者出错
+    _thread.start_new_thread(util.keyListener, (stopKey,))
+    while util.runFlag:
         if pyautogui.position()[0] >= pyautogui.size()[0] * 0.98:
             select_mode()
         screen = util.getScreen()
@@ -104,7 +105,8 @@ def tansuo():
                 continue
             else:
                 continue
-
+    util.runFlag = True
+    select_mode()
 ########################################################
 # 魂土
 
