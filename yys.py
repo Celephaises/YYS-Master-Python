@@ -15,6 +15,8 @@ import _thread
 # 读取文件 精度控制   显示名字
 imgs = action.load_imgs()
 pyautogui.PAUSE = 0.1
+
+# 退出程序的关键词
 stopKey='esc'
 
 start_time = time.time()
@@ -63,15 +65,11 @@ def tansuo():
         # 设定目标，开始查找
         # 进入后
         want = imgs['tu']
-        size = want[0].shape
-        h, w, ___ = size
-        target = screen
-        pts = action.locate(target, want, 0)
+        pts = action.locate(screen, want, 0)
         if not len(pts) == 0:
             print('正在地图中')
             want = imgs['left']
-            target = screen
-            pts = action.locate(target, want, 0)
+            pts = action.locate(screen, want, 0)
             if not len(pts) == 0:
                 right = (854, 527)
                 right = action.cheat(right, 10, 10)
@@ -81,8 +79,7 @@ def tansuo():
                 continue
             screen = util.getScreen()
             want = imgs['jian']
-            target = screen
-            pts = action.locate(target, want, 0)
+            pts = action.locate(screen, want, 0)
             if not len(pts) == 0:
                 print('点击小怪')
                 xx = action.cheat(pts[0], 10, 10)
@@ -128,6 +125,45 @@ def huntu():
     util.runFlag = True
     select_mode()
 
+########################################################
+# 业原火
+# 此功能未完善
+def yeyuanhuo():
+    _thread.start_new_thread(util.keyListener, (stopKey,))
+    while util.runFlag:
+        if pyautogui.position()[0] >= pyautogui.size()[0] * 0.98:
+            select_mode()
+        for i in ['huntutiaozhan', 'huntujiesuan', 'huntujiangli', 'huntujiesuan1', 'jiangli', 'jujue']:
+            screen = util.getScreen()
+            result = util.click(screen, i)
+            if result:
+                t = random.randint(10, 20) / 100
+                time.sleep(t)
+                continue
+            else:
+                continue
+    util.runFlag = True
+    select_mode()
+
+########################################################
+# 御灵
+# 此功能未完善
+def yuling():
+    _thread.start_new_thread(util.keyListener, (stopKey,))
+    while util.runFlag:
+        if pyautogui.position()[0] >= pyautogui.size()[0] * 0.98:
+            select_mode()
+        for i in ['huntutiaozhan', 'huntujiesuan', 'huntujiangli', 'huntujiesuan1', 'jiangli', 'jujue']:
+            screen = util.getScreen()
+            result = util.click(screen, i)
+            if result:
+                t = random.randint(10, 20) / 100
+                time.sleep(t)
+                continue
+            else:
+                continue
+    util.runFlag = True
+    select_mode()
 
 if __name__ == '__main__':
     select_mode()
