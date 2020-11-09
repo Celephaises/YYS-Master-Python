@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-11-09 09:15:12
- * @LastEditTime: 2020-11-09 17:03:35
+ * @LastEditTime: 2020-11-09 17:14:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \YYS-master\README.md
@@ -13,6 +13,7 @@
 * 如有侵权，请联系我删除
 # 使用说明
 ## 准备工作
+* 项目路径上不能存在中文
 * 系统Win10 分辨率1920*1280 缩放比例100%
 * 安装python 3 以及下载对应的库
 * 安装vscode
