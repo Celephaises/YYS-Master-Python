@@ -1,4 +1,11 @@
-# coding=utf-8
+'''
+Author: your name
+Date: 2020-11-10 16:26:58
+LastEditTime: 2020-11-10 17:35:06
+LastEditors: Please set LastEditors
+Description: In User Settings Edit
+FilePath: \YYS-master\guifuncton.py
+'''
 from cv2 import cv2
 from PIL import ImageGrab
 import numpy
@@ -8,87 +15,107 @@ import os
 import sys
 import pyautogui
 import traceback
-import action
+import keyboard
+import tkinter as tk
+import threading
 import util
-import _thread
 
-# 读取文件 精度控制   显示名字
-imgs = action.load_imgs()
-pyautogui.PAUSE = 0.1
+stopKey = 'esc'
 
-# 退出程序的关键词
-stopKey='esc'
-
-start_time = time.time()
-print('程序启动，现在时间', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) )
+global runFlag, log
+runFlag = False
 
 
-# 以上启动，载入设置
-##########################################################
-
-def log(f):
-    def wrap(*agrs, **kwagrs):
-        try:
-            ans = f(*agrs, **kwagrs)
-            return ans
-        except:
-            traceback.print_exc()
-            time.sleep(60)
-
-    return wrap
+def logMsg(logText, msg):
+    logText.config(state=tk.NORMAL)
+    logText.insert(tk.END, msg)
+    logText.config(state=tk.DISABLED)
+    logText.see(tk.END)
 
 
-@log
-def select_mode():
-    print('''\n菜单：  鼠标移动到最右侧中止并返回菜单页面,
-        1 单刷探索副本
-        2 组队魂土
-        ''')
-    action.alarm(1)
-    raw = input("选择功能模式：")
-    index = int(raw)
+def keyListener(stopKey, logText, btn_start, btn_stop):
+    keyboard.wait(stopKey)
+    stop(logText, btn_start, btn_stop)
 
-    mode = [0,tansuo, huntu]
-    comand = mode[index]
-    comand()
+
+def getModelName(num):
+    numbers = {
+        '1': "单人探索",
+        '2': "组队御魂",
+    }
+    return numbers.get(num, None)
+
+
+def start(logText, btn_start, btn_stop, selectModel):
+    mode = [0, tansuo, huntu]
+    if selectModel != 0:
+        global runFlag, log
+        log = logText
+        runFlag = True
+        comand = mode[selectModel]
+        worker = threading.Thread(target=comand)
+        worker.setDaemon(True)
+        worker.start()
+        listener = threading.Thread(target=keyListener, args=(
+            stopKey, logText, btn_start, btn_stop))
+        listener.setDaemon(True)
+        listener.start()
+        btn_start.config(state=tk.DISABLED)
+        btn_stop.config(state=tk.NORMAL)
+        msg = '%s-程序启动--可以点击Esc退出\n' % (
+            time.strftime("%H:%M:%S", time.localtime()))
+        logMsg(logText, msg)
+    else:
+        msg = '%s-错误，请先选择模式\n' % (time.strftime("%H:%M:%S", time.localtime()))
+        logMsg(logText, msg)
+
+
+def stop(logText, btn_start, btn_stop):
+    global runFlag
+    runFlag = False
+    btn_stop.config(state=tk.DISABLED)
+    btn_start.config(state=tk.NORMAL)
+    msg = '%s-程序暂停\n' % (time.strftime("%H:%M:%S", time.localtime()))
+    logMsg(logText, msg)
 
 ########################################################
 # 单人探索
 
 
 def tansuo():
-    _thread.start_new_thread(util.keyListener, (stopKey,))
-    while util.runFlag:
-        if pyautogui.position()[0] >= pyautogui.size()[0] * 0.98:
-            select_mode()
+    global runFlag
+    while runFlag:
         screen = util.getScreen()
         # 设定目标，开始查找
         # 进入后
-        want = imgs['tu']
-        pts = action.locate(screen, want, 0)
+        want = util.imgs['tu']
+        pts = util.action.locate(screen, want, 0)
         if not len(pts) == 0:
-            print('正在地图中')
-            want = imgs['left']
-            pts = action.locate(screen, want, 0)
+            msg = '%s-处于地图中\n' % (time.strftime("%H:%M:%S", time.localtime()))
+            logMsg(log, msg)
+            want = util.imgs['left']
+            pts = util.action.locate(screen, want, 0)
             if not len(pts) == 0:
                 right = (854, 527)
-                right = action.cheat(right, 10, 10)
+                right = util.action.cheat(right, 10, 10)
                 pyautogui.click(right)
                 t = random.randint(30, 60) / 100
                 time.sleep(t)
                 continue
             screen = util.getScreen()
-            want = imgs['jian']
-            pts = action.locate(screen, want, 0)
+            want = util.imgs['jian']
+            pts = util.action.locate(screen, want, 0)
             if not len(pts) == 0:
-                print('点击小怪')
-                xx = action.cheat(pts[0], 10, 10)
+                msg = '%s-点击小怪\n' % (time.strftime("%H:%M:%S",time.localtime()))
+                logMsg(log, msg)
+                xx = util.action.cheat(pts[0], 10, 10)
                 pyautogui.click(xx)
             else:
                 for i in ['queren', 'tuichu']:
                     screen = util.getScreen()
                     if util.click(screen, i):
-                        print('退出中')
+                        msg = '%s-退出中\n' % (time.strftime("%H:%M:%S", time.localtime()))
+                        logMsg(log, msg)
                         t = random.randint(20, 50) / 100
                         time.sleep(t)
                         break
@@ -102,17 +129,13 @@ def tansuo():
                 continue
             else:
                 continue
-    util.runFlag = True
-    select_mode()
 ########################################################
 # 魂土
 
 
-def huntu():
-    _thread.start_new_thread(util.keyListener, (stopKey,))
-    while util.runFlag:
-        if pyautogui.position()[0] >= pyautogui.size()[0] * 0.98:
-            select_mode()
+def huntu(logText):
+    global runFlag
+    while runFlag:
         for i in ['huntutiaozhan', 'huntujiesuan', 'huntujiangli', 'huntujiesuan1', 'jiangli', 'jujue']:
             screen = util.getScreen()
             result = util.click(screen, i)
@@ -122,17 +145,15 @@ def huntu():
                 continue
             else:
                 continue
-    util.runFlag = True
-    select_mode()
 
 ########################################################
 # 业原火
 # 此功能未完善
+
+
 def yeyuanhuo():
-    _thread.start_new_thread(util.keyListener, (stopKey,))
-    while util.runFlag:
-        if pyautogui.position()[0] >= pyautogui.size()[0] * 0.98:
-            select_mode()
+    global runFlag
+    while runFlag:
         for i in ['huntutiaozhan', 'huntujiesuan', 'huntujiangli', 'huntujiesuan1', 'jiangli', 'jujue']:
             screen = util.getScreen()
             result = util.click(screen, i)
@@ -142,17 +163,15 @@ def yeyuanhuo():
                 continue
             else:
                 continue
-    util.runFlag = True
-    select_mode()
 
 ########################################################
 # 御灵
 # 此功能未完善
+
+
 def yuling():
-    _thread.start_new_thread(util.keyListener, (stopKey,))
-    while util.runFlag:
-        if pyautogui.position()[0] >= pyautogui.size()[0] * 0.98:
-            select_mode()
+    global runFlag
+    while runFlag:
         for i in ['huntutiaozhan', 'huntujiesuan', 'huntujiangli', 'huntujiesuan1', 'jiangli', 'jujue']:
             screen = util.getScreen()
             result = util.click(screen, i)
@@ -162,8 +181,3 @@ def yuling():
                 continue
             else:
                 continue
-    util.runFlag = True
-    select_mode()
-
-if __name__ == '__main__':
-    select_mode()

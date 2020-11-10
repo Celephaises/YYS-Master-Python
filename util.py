@@ -6,7 +6,8 @@ import random
 import time
 import pyautogui
 import action
-import keyboard
+import tkinter as tk
+import action
 
 # 读取文件 精度控制   显示名字
 imgs = action.load_imgs()
@@ -121,14 +122,3 @@ def getScreen():
     c, d = downright
     screen = screen[b:d, a:c]
     return screen
-
-
-global runFlag
-runFlag = True
-
-
-def keyListener(esc):
-    global runFlag
-    keyboard.wait(esc)
-    print('退出')
-    runFlag = False
