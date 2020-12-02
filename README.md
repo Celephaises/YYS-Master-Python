@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-11-09 09:15:12
- * @LastEditTime: 2020-11-10 17:37:30
+ * @LastEditTime: 2020-12-02 10:52:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \YYS-master\README.md
@@ -22,7 +22,7 @@
 * 模拟器左上角与屏幕左上角对应
 * 启动游戏并进入副本
 ## 启动
-* 运行gui.py
+* 运行yys-master.py
 * 选择模块并启动
 ## 关闭
 * 点击键盘 Esc
