@@ -1,7 +1,7 @@
 '''
 Author: your name
 Date: 2020-11-10 16:26:58
-LastEditTime: 2020-11-10 17:35:06
+LastEditTime: 2020-11-13 16:46:11
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \YYS-master\guifuncton.py
@@ -47,7 +47,7 @@ def getModelName(num):
 
 
 def start(logText, btn_start, btn_stop, selectModel):
-    mode = [0, tansuo, huntu]
+    mode = [0, tansuo, huntu,yeyuanhuo,yuling]
     if selectModel != 0:
         global runFlag, log
         log = logText
@@ -83,7 +83,6 @@ def stop(logText, btn_start, btn_stop):
 
 
 def tansuo():
-    global runFlag
     while runFlag:
         screen = util.getScreen()
         # 设定目标，开始查找
@@ -134,7 +133,6 @@ def tansuo():
 
 
 def huntu(logText):
-    global runFlag
     while runFlag:
         for i in ['huntutiaozhan', 'huntujiesuan', 'huntujiangli', 'huntujiesuan1', 'jiangli', 'jujue']:
             screen = util.getScreen()
@@ -154,7 +152,7 @@ def huntu(logText):
 def yeyuanhuo():
     global runFlag
     while runFlag:
-        for i in ['huntutiaozhan', 'huntujiesuan', 'huntujiangli', 'huntujiesuan1', 'jiangli', 'jujue']:
+        for i in ['yeyuanhuotiaozhan', 'yeyuanhuojiesuan', 'yeyuanhuojiangli', 'yeyuanhuojiesuan1', 'jiangli', 'jujue']:
             screen = util.getScreen()
             result = util.click(screen, i)
             if result:
