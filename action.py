@@ -1,7 +1,7 @@
 '''
 Author: your name
 Date: 2020-10-31 08:46:46
-LastEditTime: 2020-11-11 17:30:39
+LastEditTime: 2020-12-08 15:53:56
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \YYS-master\action.py
@@ -53,7 +53,7 @@ def locate(target, want, show=0, msg=0):
 
 # 按【文件内容，匹配精度，名称】格式批量聚聚要查找的目标图片，精度统一为0.85，名称为文件名
 def load_imgs():
-    mubiao = {}
+    want = {}
     path = os.getcwd() + '/jpg'
     file_list = os.listdir(path)
 
@@ -61,9 +61,9 @@ def load_imgs():
         name = file.split('.')[0]
         file_path = path + '/' + file
         a = [cv2.imread(file_path), 0.85, name]
-        mubiao[name] = a
+        want[name] = a
 
-    return mubiao
+    return want
 
 # 蜂鸣报警器，参数n为鸣叫资料
 

@@ -74,7 +74,7 @@ def checkMan():
                                 pyautogui.dragTo(xy[0]+30, xy[1], 0.5)
                 man = getManXy()
     screen = getScreen()
-    click(screen, 'zhunbei')
+    return click(screen, 'zhunbei')
 
 
 def click(screen, s):
@@ -122,3 +122,7 @@ def getScreen():
     c, d = downright
     screen = screen[b:d, a:c]
     return screen
+
+
+def getTimeFormat():
+    return time.strftime("%H:%M:%S", time.localtime())
