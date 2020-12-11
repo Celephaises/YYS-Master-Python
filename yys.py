@@ -1,7 +1,7 @@
 '''
 Author: your name
 Date: 2020-11-10 16:26:58
-LastEditTime: 2020-12-10 14:30:31
+LastEditTime: 2020-12-10 14:58:36
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \YYS-master\guifuncton.py
@@ -20,12 +20,18 @@ import tkinter as tk
 import threading
 import util
 
-stopKey = 'esc'
+# 程序暂停快捷键
+stopKey = 'Esc'
 
 global runFlag, log, PhysicalLimit, count, Btn_start, Btn_stop
+# 程序运行标志
 runFlag = False
+# 体力初始默认值
 PhysicalLimit = 0
+# 体力消耗统计
 count = 0
+
+# 打印消息到前端
 
 
 def logMsg(logText, msg):
@@ -34,6 +40,8 @@ def logMsg(logText, msg):
     logText.config(state=tk.DISABLED)
     logText.see(tk.END)
 
+# 变更体力消耗数值
+
 
 def changeCost(costText, cost):
     costText.config(state=tk.NORMAL)
@@ -41,15 +49,14 @@ def changeCost(costText, cost):
     costText.insert(0, cost)
     costText.config(state=tk.DISABLED)
 
+# 键盘监听器
 
-def keyListener(stopKey, logText, btn_start, btn_stop):
+
+def keyListener(logText, btn_start, btn_stop):
     keyboard.wait(stopKey)
     stop(logText, btn_start, btn_stop)
 
-
-def getModelName(num):
-    numbers = ["单人探索", "组队御魂", "业原火", "御灵"]
-    return numbers[num]
+# 程序启动
 
 
 def start(logText, costText, btn_start, btn_stop, selectModel, physicalLimit):
@@ -67,8 +74,8 @@ def start(logText, costText, btn_start, btn_stop, selectModel, physicalLimit):
         worker = threading.Thread(target=comand)
         worker.setDaemon(True)
         worker.start()
-        listener = threading.Thread(target=keyListener, args=(
-            stopKey, logText, btn_start, btn_stop))
+        listener = threading.Thread(
+            target=keyListener, args=(logText, btn_start, btn_stop))
         listener.setDaemon(True)
         listener.start()
         btn_start.config(state=tk.DISABLED)
@@ -79,13 +86,15 @@ def start(logText, costText, btn_start, btn_stop, selectModel, physicalLimit):
         msg = '%s-错误，请先选择模式\n' % (util.getTimeFormat())
         logMsg(logText, msg)
 
+# 程序暂停
+
 
 def stop(logText, btn_start, btn_stop):
     global runFlag
     runFlag = False
     btn_stop.config(state=tk.DISABLED)
     btn_start.config(state=tk.NORMAL)
-    msg = '%s-程序暂停\n' % (time.strftime("%H:%M:%S", time.localtime()))
+    msg = '%s-程序暂停\n' % (util.getTimeFormat())
     logMsg(logText, msg)
 
 ########################################################

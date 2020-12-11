@@ -1,7 +1,7 @@
 '''
 Author: your name
 Date: 2020-11-10 10:43:46
-LastEditTime: 2020-12-10 10:28:59
+LastEditTime: 2020-12-10 14:35:08
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \YYS-master\gui.py
@@ -14,7 +14,7 @@ import yys
 def main():
     window = tk.Tk()  # 创建窗口
     window.title("阴阳师助手")  # 窗口标题
-    window.geometry('400x400')  # 窗口大小，小写字母x
+    window.geometry('400x300')  # 窗口大小，小写字母x
     window.resizable(0, 0)  # 设置窗口大小不可变
     # 副本模式
     selectModel = tk.StringVar()
@@ -50,9 +50,7 @@ def main():
     btn_stop = tk.Button(window, text='暂停', command=lambda: yys.stop(
         logText, btn_start, btn_stop))
     btn_stop.grid(row=2, column=1, pady=10)
-
-    j = j+2
-    logText.grid(row=int(j/2), column=0, columnspan=4)
+    logText.grid(row=3, column=0, columnspan=4)
     # 以上是窗口的主体
     window.mainloop()  # 结束（不停循环刷新）
 
