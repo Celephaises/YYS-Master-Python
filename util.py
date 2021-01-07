@@ -24,7 +24,7 @@ def checkMan():
         if len(pts) >= 1:
             size = want[0].shape
             h, w, ___ = size
-            xy = action.cheat(pts[0], w, h-10)
+            xy = action.cheat(pts[0], w, h - 10)
             pyautogui.doubleClick(xy)
             time.sleep(2)
             screen = getScreen()
@@ -55,14 +55,14 @@ def checkMan():
                         gouliang = action.locate(screen, want, 0)
                         if len(gouliang) >= 2:
                             gouliangxy = action.cheat(
-                                gouliang[random.randint(0, len(gouliang)-1)], w, h)
+                                gouliang[random.randint(0, len(gouliang) - 1)], w, h)
                             if len(man) >= 1:
                                 pyautogui.mouseDown(
-                                    gouliangxy[0]+10, gouliangxy[1]+10)
-                                pyautogui.dragTo(man[0][0], man[0][1]+40, 0.5)
+                                    gouliangxy[0] + 10, gouliangxy[1] + 10)
+                                pyautogui.dragTo(man[0][0], man[0][1] + 40, 0.5)
                             screen = getScreen()
                             man = getManXy()
-                            gouliang = action.locate(screen, want, 0)
+                            action.locate(screen, want, 0)
                         else:
                             screen = getScreen()
                             want = imgs['gundongtiao']
@@ -70,13 +70,28 @@ def checkMan():
                             if len(pts) >= 1:
                                 xy = action.cheat(pts[0], w, h)
                                 pyautogui.mouseDown(xy)
-                                pyautogui.dragTo(xy[0]+30, xy[1], 0.5)
+                                pyautogui.dragTo(xy[0] + 30, xy[1], 0.5)
                 man = getManXy()
     screen = getScreen()
     return click(screen, 'zhunbei')
 
 
-def click(screen, s):
+def getScreen():
+    screen = ImageGrab.grab()
+    screen.save('screen.jpg')
+    screen = cv2.cv2.imread('screen.jpg')
+
+    # 截屏，并裁剪以加速
+    upleft = (0, 0)
+    downright = (1358, 768)
+
+    a, b = upleft
+    c, d = downright
+    screen = screen[b:d, a:c]
+    return screen
+
+
+def click(s, screen=getScreen()):
     want = imgs[s]
     size = want[0].shape
     h, w, ___ = size
@@ -103,24 +118,9 @@ def getManXy():
         pts = action.locate(screen, want, 0)
         if len(pts) >= 1:
             xy = action.cheat(pts[0], 5, 5)
-            xy[0] = xy[0]+500
+            xy[0] = xy[0] + 500
             manxy.append(xy)
     return manxy
-
-
-def getScreen():
-    screen = ImageGrab.grab()
-    screen.save('screen.jpg')
-    screen = cv2.cv2.imread('screen.jpg')
-
-    # 截屏，并裁剪以加速
-    upleft = (0, 0)
-    downright = (1358, 768)
-
-    a, b = upleft
-    c, d = downright
-    screen = screen[b:d, a:c]
-    return screen
 
 
 def getTimeFormat():

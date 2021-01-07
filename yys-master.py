@@ -1,11 +1,11 @@
-'''
+"""
 Author: your name
 Date: 2020-11-10 10:43:46
 LastEditTime: 2020-12-10 14:35:08
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \YYS-master\gui.py
-'''
+"""
 import tkinter as tk
 
 import yys
