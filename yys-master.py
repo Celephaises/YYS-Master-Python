@@ -7,7 +7,7 @@ Description: In User Settings Edit
 FilePath: \YYS-master\gui.py
 '''
 import tkinter as tk
-import time
+
 import yys
 
 
@@ -30,8 +30,8 @@ def main():
     frameRadio.grid(row=0, column=0, columnspan=2, pady=10)
     for i in modelName:
         tk.Radiobutton(frameRadio, text=i, variable=selectModel,
-                       value=j+1).grid(row=int(j/5), column=int(j % 5), padx=5)
-        j = j+1
+                       value=j + 1).grid(row=int(j / 5), column=int(j % 5), padx=5)
+        j = j + 1
     frameText = tk.Frame(window)
     frameText.grid(row=1, column=0, columnspan=2, pady=10)
     physicalLimit = tk.StringVar()
@@ -45,7 +45,7 @@ def main():
     costLabel.grid(row=0, column=2, sticky=tk.E)
     costText.grid(row=0, column=3, sticky=tk.W)
     btn_start = tk.Button(window, text='开始', command=lambda: yys.start(
-        logText, costText, btn_start, btn_stop, int(selectModel.get()),  int(physicalLimit.get())))
+        logText, costText, btn_start, btn_stop, int(selectModel.get()), int(physicalLimit.get())))
     btn_start.grid(row=2, column=0, pady=10)
     btn_stop = tk.Button(window, text='暂停', command=lambda: yys.stop(
         logText, btn_start, btn_stop))

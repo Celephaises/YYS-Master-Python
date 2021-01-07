@@ -1,19 +1,20 @@
 '''
 Author: your name
 Date: 2020-10-31 08:46:46
-LastEditTime: 2020-12-08 15:53:56
+LastEditTime: 2021-01-07 11:38:57
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \YYS-master\action.py
 '''
 
-from cv2 import cv2
-import numpy
-import time
 import os
 import random
-from PIL import ImageGrab
+import time
 from winsound import Beep
+
+import numpy
+from cv2 import cv2
+
 
 # 在背景查找目标图片，并返回查找到的结果坐标列表，target是背景，want是要找目标
 
@@ -60,7 +61,7 @@ def load_imgs():
     for file in file_list:
         name = file.split('.')[0]
         file_path = path + '/' + file
-        a = [cv2.imread(file_path), 0.85, name]
+        a = [cv2.imread(file_path), 0.87, name]
         want[name] = a
 
     return want

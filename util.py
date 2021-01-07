@@ -1,12 +1,11 @@
 # coding=utf-8
-from cv2 import cv2
-from PIL import ImageGrab
-import numpy
 import random
 import time
+
+import cv2
 import pyautogui
-import action
-import tkinter as tk
+from PIL import ImageGrab
+
 import action
 
 # 读取文件 精度控制   显示名字
@@ -92,7 +91,7 @@ def click(screen, s):
 def getManXy():
     screen = ImageGrab.grab()
     screen.save('screen.jpg')
-    screen = cv2.imread('screen.jpg')
+    screen = cv2.cv2.imread('screen.jpg')
     upleft = (500, 0)
     downright = (1200, 500)
     a, b = upleft
@@ -112,7 +111,7 @@ def getManXy():
 def getScreen():
     screen = ImageGrab.grab()
     screen.save('screen.jpg')
-    screen = cv2.imread('screen.jpg')
+    screen = cv2.cv2.imread('screen.jpg')
 
     # 截屏，并裁剪以加速
     upleft = (0, 0)

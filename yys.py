@@ -1,23 +1,19 @@
 '''
 Author: your name
 Date: 2020-11-10 16:26:58
-LastEditTime: 2020-12-10 14:58:36
+LastEditTime: 2021-01-07 12:22:50
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \YYS-master\guifuncton.py
 '''
-from cv2 import cv2
-from PIL import ImageGrab
-import numpy
-import time
 import random
-import os
-import sys
-import pyautogui
-import traceback
-import keyboard
-import tkinter as tk
 import threading
+import time
+import tkinter as tk
+
+import keyboard
+import pyautogui
+
 import util
 
 # 程序暂停快捷键
@@ -53,7 +49,7 @@ def changeCost(costText, cost):
 
 
 def keyListener(logText, btn_start, btn_stop):
-    keyboard.wait(stopKey)
+    keyboard.wait('Esc')
     stop(logText, btn_start, btn_stop)
 
 # 程序启动
@@ -102,6 +98,7 @@ def stop(logText, btn_start, btn_stop):
 
 
 def tansuo():
+    global count, PhysicalLimit
     while runFlag:
         screen = util.getScreen()
         # 设定目标，开始查找
@@ -123,12 +120,12 @@ def tansuo():
             screen = util.getScreen()
             want = util.imgs['jian']
             pts = util.action.locate(screen, want, 0)
-            if not len(pts) == 0:
+            if len(pts) >= 1:
                 msg = '%s-点击小怪\n' % (util.getTimeFormat())
                 logMsg(log, msg)
                 xx = util.action.cheat(pts[0], 10, 10)
                 pyautogui.click(xx)
-            elif not util.click(screen, 'boss'):
+            else:
                 for i in ['queren', 'tuichu']:
                     screen = util.getScreen()
                     if util.click(screen, i):
@@ -144,7 +141,41 @@ def tansuo():
                 msg = '%s-已消耗体力-%d\n' % (util.getTimeFormat(), count)
                 logMsg(log, msg)
                 stop(log, Btn_start, Btn_stop)
-        for i in ['28', 'tansuo', 'ying', 'jiangli', 'jixu', 'jujue']:
+        want = util.imgs['jjtpman']
+        pts = util.action.locate(screen, want, 0)
+        if len(pts) >= 1:
+            print('结界突破满')
+            screen = util.getScreen()
+            util.click(screen, '28guanbi')
+            t = random.randint(50, 80) / 100
+            time.sleep(t)
+            screen = util.getScreen()
+            util.click(screen, 'jjtpkaishi')
+            while True:
+                screen = util.getScreen()
+                if util.click(screen, 'jjtpjieshu'):
+                    while not util.click(screen, 'jjtpguanbi'):
+                        screen = util.getScreen()
+                    break
+                elif util.click(screen, 'shuaxinqueren'):
+                    screen = util.getScreen()
+                elif util.click(screen, 'jjtpjingong'):
+                    screen = util.getScreen()
+                elif util.click(screen, 'jjtp'):
+                    screen = util.getScreen()
+                else:
+                    util.click(screen, 'jjtpshuaxin')
+                    screen = util.getScreen()
+                for i in ['jjtpjiesuan', 'jjtpjiesuan1', 'jjtpjiesuan2', 'jjtpshibai','jujue']:
+                    screen = util.getScreen()
+                    result = util.click(screen, i)
+                    if result:
+                        t = random.randint(10, 20) / 100
+                        time.sleep(t)
+                        continue
+                    else:
+                        continue
+        for i in ['28', 'tansuo', 'ying', 'jiangli', 'jixu', 'jujue', 'yuhunqueren']:
             screen = util.getScreen()
             result = util.click(screen, i)
             if result:
@@ -193,10 +224,9 @@ def yeyuanhuo():
 
 def yuling():
     while runFlag:
-        for i in ['huntutiaozhan', 'huntujiesuan', 'huntujiangli', 'huntujiesuan1', 'jiangli', 'jujue']:
+        for i in ['yulintiaozhan', 'huntujiesuan', 'huntujiangli', 'huntujiesuan1', 'jiangli', 'jujue']:
             screen = util.getScreen()
-            result = util.click(screen, i)
-            if result:
+            if util.click(screen, i):
                 t = random.randint(10, 20) / 100
                 time.sleep(t)
                 continue
@@ -213,10 +243,23 @@ def jiejietupo():
     global runFlag, log, cost, PhysicalLimit, Btn_start, Btn_stop, count
     while runFlag:
         screen = util.getScreen()
-        if util.click(screen, 'test'):
-            count = count + 3
-            changeCost(cost, count)
-        if (count >= PhysicalLimit) & (PhysicalLimit != 0):
-            msg = '%s-已消耗体力-%d\n' % (util.getTimeFormat(), count)
-            logMsg(log, msg)
+        if util.click(screen, 'jjtpjieshu'):
             stop(log, Btn_start, Btn_stop)
+        elif util.click(screen, 'shuaxinqueren'):
+            screen = util.getScreen()
+        elif util.click(screen, 'jjtpjingong'):
+            screen = util.getScreen()
+        elif util.click(screen, 'jjtp'):
+            screen = util.getScreen()
+        else:
+            util.click(screen, 'jjtpshuaxin')
+            screen = util.getScreen()
+        for i in ['jjtpjiesuan', 'jjtpjiesuan1', 'jjtpjiesuan2',  'jujue']:
+            screen = util.getScreen()
+            result = util.click(screen, i)
+            if result:
+                t = random.randint(10, 20) / 100
+                time.sleep(t)
+                continue
+            else:
+                continue
