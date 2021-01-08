@@ -37,11 +37,11 @@ def checkMan():
             man = action.locate(screen, want, 0)
             while len(man) >= 1:
                 screen = getScreen()
-                if click(screen, 'quanbu'):
+                if click('quanbu'):
                     t = random.randint(50, 80) / 100
                     time.sleep(t)
                     screen = getScreen()
-                    if click(screen, 'ncard'):
+                    if click( 'ncard'):
                         t = random.randint(50, 80) / 100
                         time.sleep(t)
                     screen = getScreen()
@@ -91,7 +91,8 @@ def getScreen():
     return screen
 
 
-def click(s, screen=getScreen()):
+def click(s):
+    screen = getScreen()
     want = imgs[s]
     size = want[0].shape
     h, w, ___ = size
