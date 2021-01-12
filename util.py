@@ -17,8 +17,7 @@ def checkMan():
     screen = getScreen()
     want = imgs['man']
     pts = action.locate(screen, want, 0)
-    if len(pts) >= 2:
-        print('更换狗粮')
+    if len(pts) >= 1:
         want = imgs['diban']
         pts = action.locate(screen, want, 0)
         if len(pts) >= 1:
@@ -41,7 +40,7 @@ def checkMan():
                     t = random.randint(50, 80) / 100
                     time.sleep(t)
                     screen = getScreen()
-                    if click( 'ncard'):
+                    if click('ncard'):
                         t = random.randint(50, 80) / 100
                         time.sleep(t)
                     screen = getScreen()
@@ -72,8 +71,7 @@ def checkMan():
                                 pyautogui.mouseDown(xy)
                                 pyautogui.dragTo(xy[0] + 30, xy[1], 0.5)
                 man = getManXy()
-    screen = getScreen()
-    return click(screen, 'zhunbei')
+    return click('zhunbei')
 
 
 def getScreen():
